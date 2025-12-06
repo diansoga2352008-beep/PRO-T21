@@ -1,0 +1,51 @@
+* --- ESTILOS VISUALES (CSS) --- */
+
+:root {
+    --azul-ipn: #0077be; /* Azul principal */
+    --amarillo-down: #f1c40f; /* Amarillo de concientización */
+    --gris-oscuro: #2c3e50;
+    --gris-claro: #ecf0f1;
+    --blanco: #ffffff;
+    --texto: #333333;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: var(--texto);
+    background-color: var(--gris-claro);
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 { color: var(--azul-ipn); margin-top: 0; }
+img { max-width: 100%; display: block; }
+
+/* --- CABECERA --- */
+header {
+    background-color: var(--azul-ipn);
+    color: var(--blanco);
+    padding: 2rem 0;
+    text-align: center;
+    border-bottom: 5px solid var(--amarillo-down);
+}
+
+header h1 {
+    color: var(--blanco);
+    font-size: 3rem;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+header p { font-size: 1.2rem; font-weight: 300; }
+
