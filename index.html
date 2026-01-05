@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRO T21 - Inclusión y Desarrollo</title>
+    
+    <style>
+        /* --- 1. DISEÑO GENERAL --- */
+        :root {
+            --azul-ipn: #0056b3;
+            --azul-claro: #e3f2fd;
+            --amarillo: #f1c40f;
+            --verde: #27ae60;
+            --rojo: #e74c3c;
+            --gris: #333;
+            --blanco: #fff;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            background-color: #f4f6f9; color: var(--gris);
+            line-height: 1.6; transition: all 0.3s ease;
+        }
+
+        /* Header y Nav */
+        header {
+            background: linear-gradient(135deg, var(--azul-ipn) 0%, #004494 100%);
+            color: var(--blanco); padding: 2rem 0; text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 3rem; letter-spacing: 2px; }
+        
+        nav {
+            background-color: #1a252f; position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        nav a {
+            color: var(--blanco); text-decoration: none; padding: 15px 25px;
+            font-weight: bold; transition: background 0.3s;
+        }
+        nav a:hover { background-color: var(--amarillo); color: #1a252f; }
+
+        .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+        section { padding: 60px 0; }
+        .section-title { text-align: center; color: var(--azul-ipn); font-size: 2.2rem; margin-bottom: 10px; }
+        .section-subtitle { text-align: center; color: #666; margin-bottom: 40px; }
+
+        /* --- 2. BARRA ACCESIBILIDAD --- */
+        .access-bar {
+            position: fixed; top: 20%; right: 0; background-color: var(--azul-ipn);
+            padding: 12px; border-radius: 15px 0 0 15px; z-index: 2000;
+            display: flex; flex-direction: column; gap: 15px;
+            box-shadow: -4px 5px 15px rgba(0,0,0,0.2);
+        }
+        .access-bar button {
+            background: var(--blanco); border: none; color: var(--azul-ipn);
+            width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
+            font-weight: 800; font-size: 1.1rem; transition: transform 0.2s;
+        }
+        .access-bar button:hover { transform: scale(1.15); background: var(--amarillo); }
+
+        /* Alto Contraste */
+        body.high-contrast { background-color: #000 !important; color: #ffeb3b !important; }
+        body.high-contrast header, body.high-contrast nav, body.high-contrast .card {
+            background-color: #111 !important; color: #ffeb3b !important; border: 1px solid #ffeb3b;
+        }
+        body.high-contrast a, body.high-contrast h1, body.high-contrast h2 { color: #00e5ff !important; }
+
+        /* --- 3. QUIZ --- */
+        .quiz-section { background: linear-gradient(135deg, #e3f2fd 0%, #fff 100%); border-top: 5px solid var(--amarillo); }
+        .juego-card {
+            background: var(--blanco); border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            padding: 40px; max-width: 700px; margin: 0 auto; text-align: center;
+        }
+        .btn-quiz {
+            padding: 15px 40px; border: none; border-radius: 50px; color: var(--blanco);
+            font-weight: bold; cursor: pointer; margin: 15px; font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .btn-verde { background: linear-gradient(to right, #56ab2f, #a8e063); }
+        .btn-rojo { background: linear-gradient(to right, #ff416c, #ff4b2b); }
+        .btn-quiz:hover { transform: translateY(-3px); }
+
+        /* --- 4. BOLSA DE TRABAJO --- */
+        .job-section { background-color: #f1f5f9; }
+        .search-wrapper {
+            background: var(--blanco); padding: 20px; border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05); display: flex;
+            justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;
+            max-width: 800px; margin: 0 auto;
+        }
+        .search-wrapper input, .search-wrapper select {
+            border: none; background: #f0f2f5; padding: 15px 25px;
+            border-radius: 30px; outline: none; flex: 1;
+        }
+        .jobs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        .job-card {
+            background: var(--blanco); border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: all 0.3s ease;
+            position: relative; border-top: 5px solid #ddd;
+        }
+        .job-card:hover { transform: translateY(-10px); }
+        .card-body { padding: 25px; }
+        .empresa-badge { 
+            display: inline-block; background: var(--azul-claro); color: var(--azul-ipn); 
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px;
+        }
+        .tag { display: inline-block; background: #f0f0f0; padding: 4px 10px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px; }
+        .btn-details {
+            display: block; width: 100%; padding: 15px; text-align: center;
+            background: var(--blanco); border-top: 1px solid #eee; color: var(--azul-ipn);
+            font-weight: bold; text-decoration: none; transition: background 0.3s;
+        }
+        .btn-details:hover { background: #f8f9fa; color: #003d82; }
+        .border-admin { border-top-color: var(--azul-ipn); }
+        .border-operativo { border-top-color: var(--amarillo); }
+        .border-creativo { border-top-color: var(--verde); }
+
+        /* --- 5. NUEVA SECCIÓN: GUÍAS VISUALES (IMÁGENES) --- */
+        .guides-section { background: #fff; }
+        .guide-item {
+            display: flex; align-items: center; gap: 40px; margin-bottom: 60px;
+            background: #f9f9f9; padding: 30px; border-radius: 20px;
+        }
+        .guide-item.reverse { flex-direction: row-reverse; background: #e3f2fd; }
+        .guide-text { flex: 1; }
+        .guide-text h3 { color: var(--azul-ipn); font-size: 1.8rem; margin-bottom: 15px; }
+        .guide-img { flex: 1; }
+        .guide-img img {
+            width: 100%; height: auto; border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.3s;
+        }
+        .guide-img img:hover { transform: scale(1.02); }
+        
+        @media (max-width: 768px) {
+            .guide-item, .guide-item.reverse { flex-direction: column; }
+        }
+
+        /* --- 6. MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center;
+            z-index: 3000; backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: var(--blanco); padding: 40px; border-radius: 20px;
+            max-width: 500px; width: 90%; position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25); animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from {transform: translateY(50px); opacity: 0;} to {transform: translateY(0); opacity: 1;} }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; cursor: pointer; color: #999; }
+
+        footer { background: #1a252f; color: #bdc3c7; text-align: center; padding: 20px; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="access-bar">
+        <button onclick="cambiarTexto(1)" title="Aumentar">A+</button>
+        <button onclick="cambiarTexto(-1)" title="Disminuir">A-</button>
+        <button onclick="toggleContraste()" title="Contraste">👁️</button>
+        <button onclick="resetear()" title="Reset">↺</button>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1>PRO T21</h1>
+            <p>Plataforma de Inclusión Laboral y Desarrollo Profesional</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#quiz-section">Reto de Mitos</a>
+        <a href="#bolsa-trabajo">Bolsa de Trabajo</a>
+        <a href="#guias">Guías Visuales</a>
+    </nav>
+
+    <section id="inicio" class="hero">
+        <div class="container">
+            <h2>Construyendo Autonomía</h2>
+            <p class="hero-text">
+                Tecnología para conectar talento con oportunidades y romper estigmas sobre el Síndrome de Down.
+            </p>
+        </div>
+    </section>
+
+    <section id="quiz-section" class="quiz-section">
+        <div class="container">
+            <h2 class="section-title">Desafío: ¿Mito o Realidad?</h2>
+            <div id="juego-box" class="juego-card">
+                <h3 id="pregunta-texto" style="font-size: 1.5rem; margin-bottom: 30px;">Cargando...</h3>
+                <div id="botones-quiz">
+                    <button onclick="verificarRespuesta(true)" class="btn-quiz btn-verde">Verdadero</button>
+                    <button onclick="verificarRespuesta(false)" class="btn-quiz btn-rojo">Falso</button>
+                </div>
+                <div id="resultado-texto" style="margin-top:20px; min-height:60px; font-size:1.1rem;"></div>
+                <button id="btn-siguiente" onclick="siguientePregunta()" style="display:none; margin:20px auto; padding:10px 25px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer;">Siguiente ➡️</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="bolsa-trabajo" class="job-section">
+        <div class="container">
+            <h2 class="section-title">Directorio de Oportunidades</h2>
+            <div class="search-wrapper">
+                <input type="text" id="buscador" placeholder="🔍 Buscar puesto (ej: Cocina, Archivo...)" onkeyup="filtrarEmpleos()">
+                <select id="filtro-zona" onchange="filtrarEmpleos()">
+                    <option value="todas">📍 Todas las Zonas</option>
+                    <option value="Norte">Zona Norte</option>
+                    <option value="Sur">Zona Sur</option>
+                    <option value="Centro">Zona Centro</option>
+                </select>
+            </div>
+            <div id="lista-vacantes" class="jobs-grid"></div>
+            <p id="no-resultados" style="display:none; text-align:center; color:red; font-weight:bold;">No se encontraron vacantes.</p>
+        </div>
+    </section>
+
+    <section id="guias" class="guides-section">
+        <div class="container">
+            <h2 class="section-title">Escenarios de Inclusión</h2>
+            <p class="section-subtitle">Ejemplos visuales de convivencia y autonomía.</p>
+
+            <div class="guide-item">
+                <div class="guide-text">
+                    <h3>En el Núcleo Familiar</h3>
+                    <p>La autonomía empieza en casa. Asignar tareas domésticas y evitar la sobreprotección fomenta la madurez.</p>
+                </div>
+                <div class="guide-img">
+                    <img src="familia.jpg" alt="Familia Inclusiva">
+                </div>
+            </div>
+
+            <div class="guide-item reverse">
+                <div class="guide-text">
+                    <h3>En la Vida Social</h3>
+                    <p>Trato directo y respetuoso. Hablar con la persona, no con su acompañante, valida su identidad.</p>
+                </div>
+                <div class="guide-img">
+                    <img src="social.jpg" alt="Convivencia Social">
+                </div>
+            </div>
+
+            <div class="guide-item">
+                <div class="guide-text">
+                    <h3>En el Trabajo</h3>
+                    <p>Responsabilidad real. Cumplir horarios y metas eleva su autoestima y productividad.</p>
+                </div>
+                <div class="guide-img">
+                    <img src="trabajo.jpg" alt="Ambiente Laboral">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="modal-detalle" class="modal-overlay" onclick="cerrarModal(event)">
+        <div class="modal-content">
+            <span class="close-btn" onclick="cerrarModalBtn()">&times;</span>
+            <h2 id="modal-titulo" style="color:var(--azul-ipn)">Título</h2>
+            <p id="modal-empresa" style="font-weight:bold;">Empresa</p>
+            <h4 style="margin-top:20px;">Requisitos:</h4>
+            <ul id="modal-requisitos" style="text-align:left; background:#f9f9f9; padding:20px; border-radius:10px;"></ul>
+            <div style="background:#e3f2fd; padding:15px; border-radius:10px; text-align:center; margin-top:20px;">
+                <strong style="color:var(--azul-ipn);">Acude a Orientación Juvenil - CECyT 5</strong>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Proyecto PRO T21 | Plataforma Web Progresiva</p>
+    </footer>
+
+    <script>
+        /* Accesibilidad */
+        let tamano = 16;
+        function cambiarTexto(n) { tamano += n; if(tamano<14)tamano=14; if(tamano>26)tamano=26; document.body.style.fontSize = tamano+'px'; }
+        function toggleContraste() { document.body.classList.toggle('high-contrast'); }
+        function resetear() { tamano=16; document.body.style.fontSize='16px'; document.body.classList.remove('high-contrast'); }
+
+        /* Quiz 10 Preguntas */
+        const preguntas = [
+            {t:"El síndrome de Down es contagioso.", v:false, exp:"Falso. Es genético."},
+            {t:"Pueden trabajar y ser productivos.", v:true, exp:"Verdadero. Son muy capaces."},
+            {t:"Son siempre niños.", v:false, exp:"Falso. Maduran y son adultos."},
+            {t:"Deben ir a escuelas especiales solamente.", v:false, exp:"Falso. La inclusión escolar es un derecho."},
+            {t:"Tienen sentimientos complejos (tristeza, enojo).", v:true, exp:"Verdadero. Como cualquiera."},
+            {t:"Pueden vivir solos con apoyo.", v:true, exp:"Verdadero. Existen programas de vida independiente."},
+            {t:"Su esperanza de vida es de 20 años.", v:false, exp:"Falso. Superan los 60 años hoy en día."},
+            {t:"No pueden hacer deporte.", v:false, exp:"Falso. Hay grandes atletas Down."},
+            {t:"Se cura con medicina.", v:false, exp:"Falso. Es una condición de vida."},
+            {t:"Pueden tener pareja.", v:true, exp:"Verdadero. Tienen derecho al amor."}
+        ];
+        let idx=0, aciertos=0;
+        function cargarPregunta(){
+            if(idx<preguntas.length){
+                document.getElementById("pregunta-texto").innerText = (idx+1)+". "+preguntas[idx].t;
+                document.getElementById("resultado-texto").innerText="";
+                document.getElementById("btn-siguiente").style.display="none";
+                document.getElementById("botones-quiz").style.display="block";
+            }else{
+                document.getElementById("juego-box").innerHTML = `<h3 style='color:#0056b3'>¡Fin del Juego!</h3><p>Puntaje: ${aciertos}/10</p><button onclick='location.reload()' class='btn-quiz btn-verde'>Reiniciar</button>`;
+            }
+        }
+        function verificarRespuesta(r){
+            let p=preguntas[idx];
+            let res=document.getElementById("resultado-texto");
+            if(r===p.v){ res.innerHTML="<strong style='color:green'>Correcto</strong><br>"+p.exp; aciertos++; }
+            else{ res.innerHTML="<strong style='color:red'>Incorrecto</strong><br>"+p.exp; }
+            document.getElementById("btn-siguiente").style.display="block";
+            document.getElementById("botones-quiz").style.display="none";
+        }
+        function siguientePregunta(){ idx++; cargarPregunta(); }
+
+        /* Bolsa Trabajo */
+        const empleos = [
+            {id:1, puesto:"Auxiliar de Archivo", empresa:"Oficinas Centrales", zona:"Centro", tipo:"admin", tags:["Orden"], req:["Alfabetización","Puntualidad"]},
+            {id:2, puesto:"Ayudante General", empresa:"Café Inclusivo", zona:"Sur", tipo:"operativo", tags:["Limpieza"], req:["Higiene","Trato amable"]},
+            {id:3, puesto:"Auxiliar de Arte", empresa:"Museo Soumaya", zona:"Norte", tipo:"creativo", tags:["Pintura"], req:["Cuidado de material","Gusto por arte"]},
+            {id:4, puesto:"Empacador", empresa:"Supermercado Sol", zona:"Norte", tipo:"operativo", tags:["Servicio"], req:["Resistencia física","Amabilidad"]},
+            {id:5, puesto:"Capturista", empresa:"Banco Seguro", zona:"Centro", tipo:"admin", tags:["PC"], req:["Concentración","Uso de teclado"]}
+        ];
+        function mostrarEmpleos(lista){
+            const c=document.getElementById("lista-vacantes"); c.innerHTML="";
+            if(lista.length===0) document.getElementById("no-resultados").style.display="block";
+            else document.getElementById("no-resultados").style.display="none";
+            lista.forEach(e=>{
+                let bc=e.tipo==='admin'?'border-admin':(e.tipo==='operativo'?'border-operativo':'border-creativo');
+                c.innerHTML+=`<div class="job-card ${bc}"><div class="card-body"><span class="empresa-badge">${e.empresa}</span><h3>${e.puesto}</h3><p>Zona: ${e.zona}</p></div><a href="javascript:void(0)" onclick="abrirModal(${e.id})" class="btn-details">Ver Requisitos ➜</a></div>`;
+            });
+        }
+        function filtrarEmpleos(){
+            let t=document.getElementById("buscador").value.toLowerCase();
+            let z=document.getElementById("filtro-zona").value;
+            let f=empleos.filter(e=>(e.puesto.toLowerCase().includes(t)||e.empresa.toLowerCase().includes(t))&&(z==="todas"||e.zona===z));
+            mostrarEmpleos(f);
+        }
+
+        /* Modal */
+        function abrirModal(id){
+            let v=empleos.find(e=>e.id===id);
+            document.getElementById("modal-titulo").innerText=v.puesto;
+            document.getElementById("modal-empresa").innerText=v.empresa;
+            let l=document.getElementById("modal-requisitos"); l.innerHTML="";
+            v.req.forEach(r=>l.innerHTML+=`<li>${r}</li>`);
+            document.getElementById("modal-detalle").style.display="flex";
+        }
+        function cerrarModalBtn(){document.getElementById("modal-detalle").style.display="none";}
+        function cerrarModal(e){if(e.target.id==="modal-detalle")cerrarModalBtn();}
+
+        window.onload=function(){cargarPregunta(); mostrarEmpleos(empleos);}
+    </script>
+</body>
+</html>
