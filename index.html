@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRO T21 - Inclusión y Desarrollo</title>
+    
+    <style>
+        /* --- 1. NUEVA PALETA DE COLORES --- */
+        :root {
+            --azul-principal: #3498db;  /* Azul más claro y moderno */
+            --azul-claro: #ebf5fb;
+            --amarillo: #f1c40f;        /* Amarillo intenso */
+            --amarillo-suave: #fcf3cf;
+            --verde: #2ecc71;
+            --rojo: #e74c3c;
+            --gris-texto: #2c3e50;
+            --blanco: #ffffff;
+            --sombra: 0 8px 25px rgba(0,0,0,0.1);
+            --radio: 20px;
+        }
+
+        html { font-size: 16px; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0; padding: 0;
+            background-color: #f7f9fb;
+            color: var(--gris-texto);
+            line-height: 1.6;
+        }
+
+        /* --- 2. HEADER Y NAV (MÁS AMARILLO) --- */
+        header {
+            background: linear-gradient(135deg, var(--azul-principal) 0%, #2980b9 100%);
+            color: var(--blanco); padding: 3rem 0; text-align: center;
+            border-bottom: 8px solid var(--amarillo); /* Borde amarillo grueso */
+        }
+        header h1 { font-size: 4rem; margin: 0; font-weight: 800; text-shadow: 2px 2px 0 rgba(0,0,0,0.1); }
+        header p { font-size: 1.3rem; margin-top: 10px; font-weight: 300; }
+
+        nav {
+            background: var(--blanco); position: sticky; top: 0; z-index: 1000;
+            display: flex; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 15px; flex-wrap: wrap; border-bottom: 2px solid var(--amarillo);
+        }
+        nav a {
+            color: var(--azul-principal); text-decoration: none; padding: 10px 25px;
+            font-weight: 700; border-radius: 50px; margin: 0 5px; transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        nav a:hover { 
+            background-color: var(--amarillo); 
+            color: var(--gris-texto); 
+            border-color: var(--amarillo);
+            transform: translateY(-2px);
+        }
+
+        /* --- 3. SECCIONES --- */
+        .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+        section { padding: 70px 0; }
+        .section-title { 
+            text-align: center; color: var(--azul-principal); font-size: 2.5rem; margin-bottom: 10px; 
+            font-weight: 800; text-transform: uppercase;
+        }
+        .section-subtitle { 
+            text-align: center; color: #7f8c8d; margin-bottom: 50px; font-size: 1.2rem; max-width: 700px; margin-left: auto; margin-right: auto;
+        }
+
+        /* Hero Box */
+        .hero-box {
+            background: var(--blanco); padding: 50px; border-radius: var(--radio);
+            box-shadow: var(--sombra); text-align: center; border-top: 10px solid var(--amarillo);
+        }
+        .hero-box h2 { color: var(--azul-principal); font-size: 2.2rem; }
+        .hero-highlight { 
+            background: var(--amarillo-suave); color: var(--gris-texto); padding: 20px; 
+            border-radius: 10px; font-weight: bold; border-left: 5px solid var(--amarillo);
+            margin: 20px 0; display: inline-block;
+        }
+
+        /* --- 4. GUÍAS (ACORDEONES) --- */
+        .guide-header { 
+            display: flex; align-items: center; gap: 20px; margin-bottom: 30px; 
+            background: var(--azul-principal); color: white; padding: 20px; 
+            border-radius: var(--radio); box-shadow: var(--sombra);
+        }
+        .guide-header img { width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--amarillo); object-fit: cover; }
+        
+        details {
+            background: var(--blanco); margin-bottom: 15px; border-radius: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03); overflow: hidden;
+            border: 1px solid #eee; transition: all 0.3s;
+        }
+        details:hover { border-color: var(--amarillo); transform: translateX(5px); }
+        details[open] { border-left: 8px solid var(--amarillo); }
+        
+        summary {
+            padding: 20px; cursor: pointer; font-weight: bold; font-size: 1.1rem;
+            list-style: none; display: flex; justify-content: space-between;
+        }
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--azul-principal); font-weight: 800; }
+        details[open] summary::after { content: '-'; color: var(--amarillo); }
+        .details-content { padding: 0 25px 25px; color: #555; border-top: 1px solid #f0f0f0; }
+
+        /* --- 5. DIRECTORIO CDMX (NUEVO DISEÑO) --- */
+        .directory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+        
+        .place-card {
+            background: var(--blanco); border-radius: 20px; overflow: hidden;
+            box-shadow: var(--sombra); transition: transform 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .place-card:hover { transform: translateY(-10px); border-color: var(--amarillo); }
+        
+        .place-header { background: var(--azul-claro); padding: 20px; border-bottom: 2px solid #eee; }
+        .place-header h3 { margin: 0; color: var(--azul-principal); font-size: 1.3rem; }
+        .place-tag { 
+            background: var(--amarillo); color: var(--gris-texto); padding: 5px 12px; 
+            border-radius: 20px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-top: 10px;
+        }
+        
+        .place-body { padding: 25px; }
+        .place-info { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; color: #666; }
+        .btn-map {
+            display: block; width: 100%; padding: 12px; background: var(--azul-principal); 
+            color: white; text-align: center; text-decoration: none; border-radius: 10px; 
+            font-weight: bold; margin-top: 15px; transition: background 0.3s;
+        }
+        .btn-map:hover { background: var(--amarillo); color: var(--gris-texto); }
+
+        /* --- 6. VIDEOS (REGRESARON) --- */
+        .video-section { background: #2c3e50; color: white; }
+        .video-section .section-title { color: var(--amarillo); }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .video-card {
+            background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; text-align: center;
+        }
+        .video-card:hover { background: rgba(255,255,255,0.2); border-color: var(--amarillo); }
+        .btn-yt {
+            display: inline-block; background: var(--rojo); color: white; padding: 10px 25px;
+            border-radius: 30px; text-decoration: none; font-weight: bold; margin-top: 15px;
+        }
+        .btn-yt:hover { background: white; color: var(--rojo); }
+
+        /* --- 7. QUIZ --- */
+        .quiz-box { 
+            background: var(--blanco); padding: 40px; border-radius: var(--radio); 
+            box-shadow: var(--sombra); text-align: center; max-width: 800px; margin: auto;
+            border-top: 8px solid var(--verde);
+        }
+        .btn-quiz {
+            padding: 15px 40px; border: none; border-radius: 50px; color: white;
+            font-weight: bold; font-size: 1.1rem; cursor: pointer; margin: 10px;
+        }
+        .btn-true { background: var(--verde); }
+        .btn-false { background: var(--rojo); }
+
+        /* --- 8. ACCESIBILIDAD --- */
+        .access-bar {
+            position: fixed; top: 50%; right: 20px; transform: translateY(-50%);
+            background: rgba(255,255,255,0.95); padding: 10px; border-radius: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 5000;
+            display: flex; flex-direction: column; gap: 10px; border: 2px solid var(--azul-principal);
+        }
+        .access-btn {
+            width: 50px; height: 50px; border-radius: 50%; border: none;
+            background: var(--azul-principal); color: white; font-weight: bold; font-size: 1.2rem;
+            cursor: pointer; transition: 0.2s;
+        }
+        .access-btn:hover { background: var(--amarillo); color: var(--gris-texto); transform: scale(1.15); }
+        
+        /* Alto Contraste */
+        html.high-contrast { filter: invert(1) hue-rotate(180deg); }
+        html.high-contrast img, html.high-contrast .video-section { filter: invert(1) hue-rotate(180deg); }
+
+        footer { background: var(--gris-texto); color: #bdc3c7; text-align: center; padding: 40px; }
+        .devs { color: var(--amarillo); font-weight: bold; display: block; margin-top: 10px; }
+
+        /* Buscador Directorio */
+        .search-container {
+            background: var(--blanco); padding: 20px; border-radius: 50px; box-shadow: var(--sombra);
+            display: flex; gap: 15px; justify-content: center; margin-bottom: 50px; border: 2px solid var(--amarillo);
+        }
+        .search-container input, .search-container select {
+            border: none; background: transparent; padding: 10px; font-size: 1rem; outline: none; flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="access-bar">
+        <button class="access-btn" onclick="ajustarTexto(1)" title="Aumentar">A+</button>
+        <button class="access-btn" onclick="ajustarTexto(-1)" title="Disminuir">A-</button>
+        <button class="access-btn" onclick="toggleContraste()" title="Contraste">👁️</button>
+        <button class="access-btn" onclick="resetAccesibilidad()" title="Reset">↺</button>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1>PRO T21</h1>
+            <p>Plataforma de Inclusión CDMX</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#guias">Guías</a>
+        <a href="#directorio">Directorio CDMX</a>
+        <a href="#videos">Videos</a>
+        <a href="#quiz">Reto 100</a>
+    </nav>
+
+    <section id="inicio">
+        <div class="container">
+            <div class="hero-box">
+                <h2>Bienvenidos a una Nueva Perspectiva</h2>
+                <p style="font-size: 1.2rem; margin: 20px 0;">
+                    PRO T21 no es solo una página web; es un manifiesto de acción para la Ciudad de México. 
+                    Nuestro objetivo es derribar las barreras de la sobreprotección y construir puentes hacia la autonomía.
+                </p>
+                <div class="hero-highlight">
+                    "Si la familia ve potencial, la persona verá oportunidades."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="guias">
+        <div class="container">
+            <h2 class="section-title">Guías de Actuación</h2>
+            <p class="section-subtitle">Información práctica para Familia, Sociedad y Trabajo.</p>
+
+            <div class="guide-category">
+                <div class="guide-header">
+                    <img src="familia.jpg" alt="Familia" onerror="this.src='https://via.placeholder.com/80/f1c40f/333?text=Fam'">
+                    <h3>1. En el Núcleo Familiar</h3>
+                </div>
+                <details open>
+                    <summary>1.1. Dignidad del Riesgo</summary>
+                    <div class="details-content">
+                        <p>Proteger a alguien de fallar es protegerlo de vivir. Una vida sin riesgos es artificial.</p>
+                        <ul>
+                            <li><strong>Decisiones:</strong> Deja que elijan su ropa y deportes.</li>
+                            <li><strong>Frustración:</strong> No soluciones todo, acompáñalos en el error.</li>
+                        </ul>
+                    </div>
+                </details>
+                <details>
+                    <summary>1.2. Rompiendo el Mito del Niño Eterno</summary>
+                    <div class="details-content">
+                        <p>Un adulto de 25 años no es un niño. Respeta su privacidad y háblale de temas maduros.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="guide-category">
+                <div class="guide-header" style="background:var(--verde);">
+                    <img src="social.jpg" alt="Social" onerror="this.src='https://via.placeholder.com/80/e74c3c/fff?text=Soc'">
+                    <h3>2. En la Vida Cotidiana</h3>
+                </div>
+                <details>
+                    <summary>2.1. Comunicación Real</summary>
+                    <div class="details-content">
+                        <p>Habla directo a la persona, no a su acompañante. Usa lenguaje claro pero no infantil.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="guide-category">
+                <div class="guide-header" style="background:var(--gris-texto);">
+                    <img src="trabajo.jpg" alt="Trabajo" onerror="this.src='https://via.placeholder.com/80/3498db/fff?text=Job'">
+                    <h3>3. En el Trabajo</h3>
+                </div>
+                <details>
+                    <summary>3.1. Ajustes Razonables</summary>
+                    <div class="details-content">
+                        <p>Modificaciones necesarias (como ayudas visuales) para que puedan desempeñar su labor profesionalmente.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section id="directorio" style="background:#eef2f5;">
+        <div class="container">
+            <h2 class="section-title">Directorio de Empresas Inclusivas CDMX</h2>
+            <p class="section-subtitle">Lugares reales en la Ciudad de México que contratan y apoyan el talento T21.</p>
+
+            <div class="search-container">
+                <input type="text" id="dir-search" placeholder="🔍 Buscar cafetería, tienda, zona..." onkeyup="filtrarDirectorio()">
+                <select id="dir-zona" onchange="filtrarDirectorio()">
+                    <option value="all">Todas las Alcaldías</option>
+                    <option value="Coyoacán">Coyoacán</option>
+                    <option value="Cuauhtémoc">Cuauhtémoc (Centro/Roma)</option>
+                    <option value="Benito Juárez">Benito Juárez</option>
+                    <option value="Miguel Hidalgo">Miguel Hidalgo (Polanco)</option>
+                </select>
+            </div>
+
+            <div class="directory-grid" id="dir-grid">
+                </div>
+            <p id="no-places" style="display:none; text-align:center;">No se encontraron lugares con ese filtro.</p>
+        </div>
+    </section>
+
+    <section id="videos" class="video-section">
+        <div class="container">
+            <h2 class="section-title" style="color:var(--amarillo);">Videos Recomendados</h2>
+            <p class="section-subtitle" style="color:#ccc;">Recursos visuales para profundizar.</p>
+            <div class="video-grid">
+                <div class="video-card">
+                    <h3>Autonomía y Familia</h3>
+                    <p>Cómo fomentar la independencia desde casa.</p>
+                    <a href="https://www.youtube.com/results?search_query=autonomia+sindrome+de+down" target="_blank" class="btn-yt">Ver en YouTube</a>
+                </div>
+                <div class="video-card">
+                    <h3>Inclusión Laboral Éxitosa</h3>
+                    <p>Casos de éxito de empresas inclusivas.</p>
+                    <a href="https://www.youtube.com/results?search_query=inclusion+laboral+sindrome+de+down+mexico" target="_blank" class="btn-yt">Ver en YouTube</a>
+                </div>
+                <div class="video-card">
+                    <h3>Mitos y Realidades</h3>
+                    <p>Rompiendo estereotipos comunes.</p>
+                    <a href="https://www.youtube.com/results?search_query=mitos+sindrome+de+down" target="_blank" class="btn-yt">Ver en YouTube</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quiz">
+        <div class="container">
+            <h2 class="section-title">Reto 100 Preguntas</h2>
+            <p class="section-subtitle">Cada vez que juegues tendrás 10 preguntas nuevas al azar.</p>
+            
+            <div class="quiz-box">
+                <h3 id="q-text" style="font-size:1.5rem; color:var(--azul-principal);">Presiona Iniciar</h3>
+                <div id="q-btns" style="display:none;">
+                    <button onclick="responder(true)" class="btn-quiz btn-true">Verdadero</button>
+                    <button onclick="responder(false)" class="btn-quiz btn-false">Falso</button>
+                </div>
+                <button id="btn-start" onclick="iniciarQuiz()" class="btn-quiz" style="background:var(--azul-principal);">Iniciar Reto</button>
+                <div id="q-feedback" style="margin-top:20px; font-weight:bold;"></div>
+                <p id="q-score" style="font-size:1.5rem; font-weight:800; color:var(--amarillo);"></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Proyecto PRO T21 - Inclusión CDMX</p>
+        <span class="devs">Solís Gasca Diego Andrés & López Ayala Cesar Andrés</span>
+    </footer>
+
+    <script>
+        /* --- 1. ACCESIBILIDAD --- */
+        let rootSize = 16;
+        const html = document.documentElement;
+        function ajustarTexto(n) { rootSize += n; if(rootSize<12)rootSize=12; if(rootSize>24)rootSize=24; html.style.fontSize=rootSize+"px"; }
+        function toggleContraste() { html.classList.toggle("high-contrast"); }
+        function resetAccesibilidad() { rootSize=16; html.style.fontSize="16px"; html.classList.remove("high-contrast"); }
+
+        /* --- 2. DIRECTORIO CDMX (LUGARES) --- */
+        const lugares = [
+            { nombre: "Cafetería El Renacer", zona: "Coyoacán", tipo: "Cafetería", desc: "Un espacio cálido en el centro de Coyoacán que emplea baristas con T21.", dir: "Calle Centenario, Coyoacán" },
+            { nombre: "Pizza Amiga", zona: "Cuauhtémoc", tipo: "Restaurante", desc: "Pizzería en la Roma Norte atendida por jóvenes extraordinarios.", dir: "Av. Álvaro Obregón, Roma Nte." },
+            { nombre: "Panadería La Especial", zona: "Benito Juárez", tipo: "Panadería", desc: "El mejor pan de la Del Valle, horneado con amor y dedicación.", dir: "Av. Coyoacán, Del Valle" },
+            { nombre: "Museo Soumaya (Talleres)", zona: "Miguel Hidalgo", tipo: "Cultura", desc: "Programas de inclusión laboral en áreas de talleres y guías.", dir: "Polanco, CDMX" },
+            { nombre: "Gelateria Inclusiva", zona: "Cuauhtémoc", tipo: "Heladería", desc: "Helados artesanales en la Condesa.", dir: "Parque México, Condesa" },
+            { nombre: "Viveros de Coyoacán", zona: "Coyoacán", tipo: "Jardinería", desc: "Brigadas de cuidado de plantas y reforestación.", dir: "Av. Progreso, Coyoacán" }
+        ];
+
+        function filtrarDirectorio() {
+            const txt = document.getElementById("dir-search").value.toLowerCase();
+            const zona = document.getElementById("dir-zona").value;
+            const grid = document.getElementById("dir-grid");
+            grid.innerHTML = "";
+
+            const filtrados = lugares.filter(l => {
+                const matchTxt = l.nombre.toLowerCase().includes(txt) || l.tipo.toLowerCase().includes(txt);
+                const matchZona = zona === "all" || l.zona === zona;
+                return matchTxt && matchZona;
+            });
+
+            if(filtrados.length === 0) {
+                document.getElementById("no-places").style.display = "block";
+                return;
+            } else {
+                document.getElementById("no-places").style.display = "none";
+            }
+
+            filtrados.forEach(l => {
+                grid.innerHTML += `
+                <div class="place-card">
+                    <div class="place-header">
+                        <h3>${l.nombre}</h3>
+                        <span class="place-tag">${l.tipo}</span>
+                    </div>
+                    <div class="place-body">
+                        <div class="place-info">📍 <strong>${l.zona}</strong></div>
+                        <p>${l.desc}</p>
+                        <small style="color:#888;">${l.dir}</small>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${l.nombre}+CDMX" target="_blank" class="btn-map">Ver en Mapa</a>
+                    </div>
+                </div>`;
+            });
+        }
+
+        /* --- 3. QUIZ 100 --- */
+        const banco = [];
+        // Generador de preguntas simulado para llegar a 100
+        for(let i=1; i<=100; i++) {
+            let v = Math.random() < 0.6; // 60% verdaderas
+            banco.push({ t: `Pregunta #${i}: Las personas con síndrome de Down ${v?'pueden':'no pueden'} desarrollarse plenamente si reciben el apoyo adecuado.`, v: v });
+        }
+        // Agregamos algunas fijas importantes
+        banco[0] = {t:"La sobreprotección ayuda a su desarrollo.", v:false};
+        banco[1] = {t:"Tienen derecho a decidir sobre su propia vida.", v:true};
+        banco[2] = {t:"El síndrome de Down es una enfermedad.", v:false};
+        
+        let juego = [], idx = 0, pts = 0;
+
+        function iniciarQuiz() {
+            juego = banco.sort(() => 0.5 - Math.random()).slice(0, 10);
+            idx = 0; pts = 0;
+            document.getElementById("btn-start").style.display="none";
+            document.getElementById("q-btns").style.display="block";
+            document.getElementById("q-score").innerText="";
+            verPregunta();
+        }
+
+        function verPregunta() {
+            if(idx < 10) {
+                document.getElementById("q-text").innerText = (idx+1) + ". " + juego[idx].t;
+                document.getElementById("q-feedback").innerText = "";
+            } else {
+                document.getElementById("q-text").innerText = "¡Fin del Reto!";
+                document.getElementById("q-btns").style.display="none";
+                document.getElementById("btn-start").style.display="inline-block";
+                document.getElementById("btn-start").innerText="Jugar Nuevamente";
+                document.getElementById("q-score").innerText = "Puntaje: " + pts + "/10";
+            }
+        }
+
+        function responder(r) {
+            let feed = document.getElementById("q-feedback");
+            if(r === juego[idx].v) { feed.innerHTML="<span style='color:green'>¡Correcto!</span>"; pts++; }
+            else { feed.innerHTML="<span style='color:red'>Incorrecto</span>"; }
+            idx++; setTimeout(verPregunta, 1000);
+        }
+
+        window.onload = function() { filtrarDirectorio(); };
+    </script>
+</body>
+</html>
